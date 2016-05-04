@@ -1,7 +1,7 @@
 <form method="post">
   <div>
     <label for="name">Name:</label>
-    <input name="name" type="text" value="<?php print htmlspecialchars($repo['name']); ?>" id="name">
+    <input name="name" type="text" value="<?php print htmlspecialchars($ware['name']); ?>" id="name">
   </div>
 
   <div>
@@ -16,14 +16,15 @@
 
   <div>
     <label for="price">Price</label>
-    <input type="text" name="price" id="price"<?php print ($repo['price']); ?>>
+    <input type="text" name="price" id="price"<?php print ($ware['price']); ?>>
   </div>
   <div>
     <label for="number">Number</label>
-    <input type="text" name="number" id="number"<?php print ($repo['number']); ?>>
+    <input type="text" name="number" id="number"<?php print ($ware['number']); ?>>
   </div>
 
   <div>
     <input type="submit" name="save" value="Save">
+    <input type="submit" name="cancel" value="Cancel">
   </div>
 </form>

@@ -1,6 +1,6 @@
 <?php
 
-$repo = array(
+$ware = array(
   'name' => '',
   'price' => '',
   'number' => '',
@@ -15,6 +15,10 @@ if (!empty($_POST['save'])) {
     ':number' => $_POST['number'],
   ));
 
+  header('Location: index.php');
+  exit;
+}
+elseif (!empty($_POST['cancel'])) {
   header('Location: index.php');
   exit;
 }

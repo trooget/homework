@@ -12,9 +12,9 @@ INNER JOIN storages ON ware.storage = storages.id
 ORDER BY id ASC');
 $sth->execute();
 
-$repos = array();
+$wares = array();
 while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-  $repos[] = $row;
+  $wares[] = $row;
 }
 
 ob_start();

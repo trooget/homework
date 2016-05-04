@@ -3,7 +3,7 @@
 $sth = $pdo->prepare('SELECT * FROM ware WHERE id = :id');
 $sth->execute(array(':id' => $_GET['id']));
 
-if ($repo = $sth->fetch(PDO::FETCH_ASSOC)) {
+if ($ware = $sth->fetch(PDO::FETCH_ASSOC)) {
 
   if (!empty($_POST['save'])) {
     $sth = $pdo->prepare('UPDATE ware SET name = :name, storage = :storage, price = :price, number = :number WHERE id = :id');
@@ -15,6 +15,10 @@ if ($repo = $sth->fetch(PDO::FETCH_ASSOC)) {
       ':id' => $_GET['id'],
     ));
 
+    header('Location: index.php');
+    exit;
+  }
+  elseif (!empty($_POST['cancel'])) {
     header('Location: index.php');
     exit;
   }

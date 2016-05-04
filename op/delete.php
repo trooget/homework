@@ -3,7 +3,7 @@
 $sth = $pdo->prepare('SELECT * FROM ware WHERE id = :id');
 $sth->execute(array(':id' => $_GET['id']));
 
-if ($repo = $sth->fetch(PDO::FETCH_ASSOC)) {
+if ($ware = $sth->fetch(PDO::FETCH_ASSOC)) {
 
   if (!empty($_POST['delete'])) {
 
