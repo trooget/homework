@@ -1,83 +1,126 @@
 <?php
-abstract class Triangle
+abstract class getTriangle
 {
-    abstract function side($a, $b, $c);
-    abstract function perimeter($a, $b, $c);
-    abstract function area($a, $b, $c);
+    protected $a;
+    protected $b;
+    protected $c;
+
+    abstract function __construct($a=5, $b=5, $c=5);
+    abstract function getPerimeter();
+    abstract function getArea();
 }
 
-final class Equilateral_triangle extends Triangle
+ class Equilateral_triangle extends getTriangle
 {
+    /**
+     * @return mixed
+     */
+    public function getA()
+    {
+        return $this->a;
+    }
 
-    public function side($a,$b,$c)
+    /**
+     * @param mixed $a
+     */
+    public function setA($a)
     {
-        return "a = {$a}, b = {$b}, c = {$c}</br>";
+        $this->a = $a;
     }
-    public function perimeter($a, $b, $c)
+
+    /**
+     * @return mixed
+     */
+    public function getB()
     {
-        $perim = $a + $b +$c;
-        return "  perimeter = {$perim} </br>";
+        return $this->b;
     }
-    public function area($a, $b, $c)
+
+    /**
+     * @param mixed $b
+     */
+    public function setB($b)
     {
-        $plosha = $a*$a*sqrt(3)/4;
-        return " area = {$plosha} </br>";
+        $this->b = $b;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getC()
+    {
+        return $this->c;
+    }
+
+    /**
+     * @param mixed $c
+     */
+    public function setC($c)
+    {
+        $this->c = $c;
+    }
+
+    public  function __construct($a=5, $b=5, $c=5)
+    {
+        $this->a = $a;
+        $this->b = $b;
+        $this->c = $c;
+    }
+
+    public function getPerimeter()
+    {
+        $perim = $this -> a + $this -> b + $this -> c;
+        return " perimeter = {$perim}";
+    }
+
+    public function getArea()
+    {
+        $plosha = $this -> a * $this -> a * sqrt(3)/4;
+        return " area = {$plosha} ";
     }
 }
 
-final class Rectangular_triangle extends Triangle
+class Rectangular_triangle extends Equilateral_triangle
 {
-
-    public function side($a,$b,$c)
+    public function getArea()
     {
-        return "a = {$a}, b = {$b}, c = {$c}</br>";
-    }
-    public function perimeter($a, $b, $c)
-    {
-        $perim = $a + $b +$c;
-        return "  perimeter = {$perim} </br>";
-    }
-    public function area($a, $b, $c)
-    {
-        $plosha = $a*$b/2;
-        return " area = {$plosha} </br>";
+        $plosha = ($this -> a*$this -> b)/2;
+        return " area = {$plosha} ";
     }
 }
 
-final class Arbitrary_triangle extends Triangle
+class Arbitrary_triangle extends Equilateral_triangle
 {
 
-    public function side($a,$b,$c)
+    public function getArea()
     {
-        return "a = {$a}, b = {$b}, c = {$c}</br>";
-    }
-    public function perimeter($a, $b, $c)
-    {
-        $perim = $a + $b +$c;
-        return "  perimeter = {$perim} </br>";
-    }
-    public function area($a, $b, $c)
-    {
-        $p = ($a + $b +$c)/2;
-        $plosha = sqrt($p*($p-$a)*($p-$b)*($p-$c));
-        return " area = {$plosha} </br>";
+        $p = ($this -> a + $this -> b +$this -> c)/2;
+        $plosha = sqrt($p*($p-$this -> a)*($p-$this -> b)*($p-$this -> c));
+        return " area = {$plosha} ";
     }
 }
 
-$tria = new Equilateral_triangle();
-echo "Equilateral_triangle</br>";
-echo $tria -> side(4,4,4);
-echo $tria -> perimeter(4,4,4);
-echo $tria -> area(4,4,4);
-echo "</br>";
-$rectan =  new Rectangular_triangle();
-echo "Rectangular_triangle</br>";
-echo $rectan -> side(3,4,5);
-echo $rectan -> perimeter(3,4,5);
-echo $rectan -> area(3,4,5);
-echo "</br>";
-$arbit =  new Arbitrary_triangle();
-echo "Arbitrary_triangle</br>";
-echo $arbit -> side(3,6,7);
-echo $arbit -> perimeter(3,6,7);
-echo $arbit -> area(3,6,7);
+function displayTriangle(getTriangle $triangle){
+    echo $triangle->getA() . "<br>";
+    echo $triangle->getB() . "<br>";
+    echo $triangle->getC() . "<br>";
+    echo $triangle->getPerimeter() . "<br>";
+    echo $triangle->getArea() . "<br>";
+}
+
+echo "Equilateral triangle</br>";
+$triangle = new Equilateral_triangle(7,7,7);
+displayTriangle($triangle);
+
+echo"</br>";
+
+echo "Rectangular triangle</br>";
+$triangle = new Rectangular_triangle(3,4,5);
+displayTriangle($triangle);
+
+echo"</br>";
+
+echo "Arbitrary triangle</br>";
+$triangle = new Arbitrary_triangle(6,4,7);
+displayTriangle($triangle);
+
