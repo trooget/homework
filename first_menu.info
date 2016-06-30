@@ -1,0 +1,5 @@
+name = First Menu
+description = My first hook_menu
+core = 7.x
+
+

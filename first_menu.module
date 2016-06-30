@@ -1,0 +1,91 @@
+<?php
+/**
+ * Implements hook_menu().
+ */
+function first_menu_menu() {
+  $items['admin/menu'] = [
+    'title' => 'Computer',
+    'description' => 'This is computer',
+    'page callback' => 'first_menu_menu_page',
+    'file' => 'first_menu.pages.inc',
+    'expanded' => TRUE,
+    'access callback' => TRUE,
+  ];
+  $items['admin/menu/acer'] = [
+    'title' => 'Acer`s shops',
+    'description' => 'Acer company',
+    'page callback' => 'first_menu_acer_menu_page',
+    'access callback' => TRUE,
+    'file' => 'first_menu.pages.inc',
+    'expanded' => TRUE,
+  ];
+  $items['admin/menu/lenovo'] = [
+    'title' => 'Lenovo`s shops',
+    'description' => 'Lenovo company',
+    'page callback' => 'first_menu_lenovo_menu_page',
+    'access callback' => TRUE,
+    'file' => 'first_menu.pages.inc',
+    'expanded' => TRUE,
+  ];
+  $items['admin/menu/apple'] = [
+    'title' => 'Apple`s shops',
+    'description' => 'Apple company',
+    'page callback' => 'first_menu_apple_menu_page',
+    'file' => 'first_menu.pages.inc',
+    'access arguments' => array('access to menu'),
+    'expanded' => TRUE,
+  ];
+  $items['admin/menu/dell'] = [
+    'title' => 'Dell`s shops',
+    'description' => 'Dell company',
+    'page callback' => 'first_menu_dell_menu_page',
+    'access callback' => TRUE,
+    'file' => 'first_menu.pages.inc',
+    'expanded' => TRUE,
+  ];
+  $items['admin/menu/hp'] = [
+    'title' => 'Hp`s shops',
+    'description' => 'Hp company',
+    'page callback' => 'first_menu_hp_menu_page',
+    'access callback' => TRUE,
+    'file' => 'first_menu.pages.inc',
+    'expanded' => TRUE,
+  ];
+  $items['admin/menu/asus'] = [
+    'title' => 'Asus`s shops',
+    'description' => 'Asus company',
+    'page callback' => 'first_menu_asus_menu_page',
+    'access callback' => TRUE,
+    'file' => 'first_menu.pages.inc',
+    'expanded' => TRUE,
+  ];
+  $items['admin/menu/asus/usa'] = [
+    'title' => 'manufacturers country',
+    'description' => 'Usa',
+    'page callback' => 'first_menu_usa_asus_menu_page',
+    'access callback' => TRUE,
+    'file' => 'first_menu.pages.inc',
+    'expanded' => TRUE,
+  ];
+  $items['admin/menu/asus/china'] = [
+    'title' => 'manufacturers country',
+    'description' => 'China',
+    'page callback' => 'first_menu_china_asus_menu_page',
+    'access callback' => TRUE,
+    'file' => 'first_menu.pages.inc',
+    'expanded' => TRUE,
+  ];
+  return $items;
+}
+/**
+ * Implements hook_permission().
+ *
+ */
+function first_menu_permission() {
+  return array(
+    'access to menu' => array(
+      'title' => t('Access to adding menu'),
+      'description' => t('Administrator'),
+    ),
+  );
+}
