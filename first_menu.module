@@ -60,7 +60,7 @@ function first_menu_menu() {
     'expanded' => TRUE,
   ];
   $items['admin/menu/asus/usa'] = [
-    'title' => 'manufacturers country',
+    'title' => 'manufacturers country usa',
     'description' => 'Usa',
     'page callback' => 'first_menu_usa_asus_menu_page',
     'access callback' => TRUE,
@@ -68,13 +68,22 @@ function first_menu_menu() {
     'expanded' => TRUE,
   ];
   $items['admin/menu/asus/china'] = [
-    'title' => 'manufacturers country',
+    'title' => 'manufacturers country china',
     'description' => 'China',
     'page callback' => 'first_menu_china_asus_menu_page',
     'access callback' => TRUE,
     'file' => 'first_menu.pages.inc',
     'expanded' => TRUE,
   ];
+  $items['begin_item'] = [
+    'title' => 'Begin Item',
+    'description' => 'This is begin item',
+    'page callback' => 'first_menu_begin_item_page',
+    'file' => 'first_menu.pages.inc',
+    'access callback' => TRUE,
+    'expanded' => TRUE,
+    ];
+
   return $items;
 }
 /**
@@ -89,3 +98,51 @@ function first_menu_permission() {
     ),
   );
 }
+
+/**
+ * @param $items
+ */
+/**
+ * Implements hook_menu_alter().
+ */
+function first_menu_menu_alter(&$items)
+{
+    if (!empty($items['begin_item'])) {
+        $items['begin_item_new'] = $items['begin_item'];
+        $items['begin_item_new']['title'] = 'Altered item';
+        unset($items['begin_item']);
+    }
+    if (!empty($items['begin_item_new'])) {
+        $items['begin_item_new']['page callback'] = 'first_menu_begin_altered_page';
+    }
+    foreach ($items as $route => $item) {
+        $result = module_invoke_all('first_menu_menu', $route, $item);
+        drupal_alter('first_menu_menu', $result, $route, $item);
+        foreach ($result as $subroute => $subitem) {
+            $items[$route . '/' . $subroute] = $subitem;
+        }
+    }
+}
+
+/**
+ * Implements hook_first_menu_menu().
+ */
+/**
+ * Implements hook_first_menu_menu().
+ */
+function first_menu_first_menu_menu($route, $item)
+{
+    $subitems = array();
+    if ($route == 'admin/menu/asus') {
+        $subitems['country1'] = [
+            'title' => 'Country 1',
+            'description' => 'manufacturers country 1',
+            'page callback' => 'first_menu_asus_menu_page',
+            'access callback' => TRUE,
+            'file' => 'first_menu.pages.inc',
+            'expanded' => TRUE,
+        ];
+    }
+    return $subitems;
+}
+

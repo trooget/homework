@@ -24,11 +24,24 @@ function first_menu_hp_menu_page() {
   return t("Hp company");
 }
 
+function first_menu_begin_item_page() {
+    return t("This is begin item");
+}
+
+function first_menu_begin_altered_page() {
+    return t("This is altered begin item");
+}
+
 function first_menu_asus_menu_page() {
-  return t("Usa");
+    return t("Asus company");
 }
 
 function first_menu_usa_asus_menu_page() {
+  return t("Usa");
+}
+
+function first_menu_china_asus_menu_page() {
   return t("China");
 }
+
 
