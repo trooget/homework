@@ -1,0 +1,3 @@
+name = Second Menu
+description = My second hook_menu
+core = 7.x

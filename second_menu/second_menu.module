@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * Implements hook_first_menu_menu().
+ */
+function second_menu_first_menu_menu($route, $item) {
+    $subitems = array();
+    if ($route == 'admin/menu/asus') {
+        $subitems['country2'] = [
+            'title' => 'Country 2',
+            'description' => 'manufacturers country 2',
+            'page callback' => 'first_menu_asus_menu_page',
+            'access callback' => TRUE,
+            'expanded' => TRUE,
+        ];
+    }
+    return $subitems;
+}
+
+/**
+ * Implements hook_first_menu_menu_alter().
+ */
+function second_menu_first_menu_menu_alter(&$subitems, $route, $item) {
+    if ($route == 'asus') {
+        $subitems['country1']['title'] = 'new country 1';
+    }
+}
