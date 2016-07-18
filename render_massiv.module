@@ -1,0 +1,88 @@
+<?php
+
+
+/**
+ * Implements hook_menu().
+ */
+function render_massiv_menu() {
+    $items['first_page'] = array(
+        'title' => 'First page',
+        'page callback' => 'rend_first_page_content',
+        'access callback' => TRUE,
+        'menu_name' => 'main-menu',
+    );
+
+
+
+    $items['first_page/games'] = array(
+        'title' => 'First page games',
+        'page callback' => 'rend_first_page_games',
+        'access callback' => TRUE,
+        'expanded' => TRUE,
+        'menu_name' => 'main-menu',
+        'type' => MENU_LOCAL_TASK,
+    );
+
+
+    $items['first_page/work'] = array(
+        'title' => 'First page work',
+        'page callback' => 'rend_first_page_work',
+        'access callback' => TRUE,
+        'expanded' => TRUE,
+        'menu_name' => 'main-menu',
+        'type' => MENU_LOCAL_TASK,
+    );
+
+    return $items;
+
+}
+
+/**
+ * Implements hook_theme().
+ */
+function render_massiv_theme($existing, $type, $theme, $path) {
+    $items = array();
+
+    $items['rend_first'] = array(
+        'render element' => 'first_block',
+        'template' => 'templates/block-render-massiv-first',
+    );
+
+    $items['rend_first_message'] =array(
+        'variables' => array('message' => NULL),
+        'template' => 'templates/block-render-massiv-first-message',
+
+
+    );
+
+    return $items;
+}
+
+function rend_first_page_content() {
+    return t('Content');
+}
+
+function rend_first_page_games() {
+    return t('Games');
+}
+
+function rend_first_page_work() {
+    $message1 = t('Work 1');
+    $message2 = t('Work 2');
+
+
+    $content = array(
+        '#theme' => 'rend_first',
+
+        'message1' => array(
+            '#message' => $message1,
+            '#theme' => 'rend_first_message',
+        ),
+
+        'message2' => array(
+            '#message' => $message2,
+            '#theme' => 'rend_first_message',
+        ),
+    );
+    return $content;
+}
