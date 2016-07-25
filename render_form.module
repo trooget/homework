@@ -1,0 +1,191 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function render_form_theme($existing, $type, $theme, $path) {
+    $items = array();
+
+    $items['render_form_content'] = array(
+        'render element' => 'edu_block',
+        'template' => 'templates/render-form-content',
+    );
+
+    return $items;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function edu_render_sys_preprocess_edu_render_sys_render_content(&$variables) {
+    if (!empty($variables['edu_block']['#attributes']['class'])) {
+        $variables['classes_array'] = array_merge($variables['classes_array'], $variables['edu_block']['#attributes']['class']);
+    }
+
+    if (!empty($variables['edu_block']['#attributes']['id'])) {
+        $variables['attributes_array']['id'] = $variables['edu_block']['#attributes']['id'];
+    }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function edu_render_sys_preprocess_edu_render_sys_render_message(&$variables) {
+    $variables['classes_array'][] = 'test-message-' . 'id-' . $variables['id'];
+    $variables['classes_array'][] = 'test-message-' . $variables['zebra'];
+    $variables['classes_array'][] = 'test-message-' . 'mid-' . $variables['mid'];
+
+    unset($variables['mid']);
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function render_form_block_info() {
+    $blocks['render_form'] = array(
+        'info' => t('Render form'),
+        'cache' => DRUPAL_NO_CACHE,
+    );
+
+    return $blocks;
+}
+
+
+/**
+ * Implements hook_block_view().
+ */
+function render_form_block_view($delta = '') {
+    $block = array();
+
+    switch ($delta) {
+        case 'render_form':
+            $block['subject'] = 'Render Form';
+            $block['content'] = drupal_get_form('render_form_form');
+            break;
+    }
+    return $block;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function render_form_preprocess_render_form(&$variables) {
+    $variables['node']['used']['#weight'] = 5;
+}
+
+/**
+ * Implements hook_form().
+ */
+function render_form_form($node, &$form_state)
+{
+    $node = array();
+
+    $node['compinfo'] = array(
+        '#title' => t('Computer Information'),
+        '#description' => t('You can add some information about your computer here'),
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+        '#tree' => TRUE,
+        '#attributes' => array(
+            'class' => array(
+                'container-wrapper',
+                'container-wrapper-class-2',
+            ),
+        ),
+
+        '#attached' => array(
+            'css' => array(
+                drupal_get_path('module', 'render_form') . '/css/styles.css',
+            ),
+            'js' => array(
+                drupal_get_path('module', 'render_form') . '/js/script-1.js',
+                drupal_get_path('module', 'render_form') . '/js/script-2.js',
+            ),
+        ),
+        '#theme' => 'rend_form_content',
+    );
+
+    $node['compinfo']['render_form_model'] = array(
+        '#title' => t('Model'),
+        '#type' => 'textfield',
+        '#description' => t('Enter your computer model into this field'),
+        '#default_value' => '',
+        '#maxlength' => 255,
+        '#size' => 16,
+        '#attributes' => array(
+            'placeholder' => t('Acer'),
+            'class' => array(
+                'test-class',
+                'test-class-2',
+            ),
+        ),
+        '#weight' => 1,
+        '#required' => TRUE,
+    );
+
+    $node['compinfo']['render_form_describe'] = array(
+        '#title' => t('Describe'),
+        '#type' => 'textarea',
+        '#description' => t('Describe your computer'),
+        '#default_value' => '',
+        '#maxlength' => 255,
+        '#size' => 16,
+        '#attributes' => array(
+            'placeholder' => t(''),
+            'class' => array(
+                'test-class-3',
+                'test-class-4',
+            ),
+        ),
+        '#weight' => 6,
+        '#required' => TRUE,
+    );
+
+    $node['compinfo']['render_form_new'] = array(
+        '#title' => t('Is new computer?'),
+        '#type' => 'checkbox',
+        '#weight' => 2,
+        '#default_value' => variable_get('render_form_new', 0),
+    );
+
+    $node['compinfo']['used'] = array(
+        '#title' => t('Do you use a computer often?'),
+        '#type' => 'radios',
+        '#options' => array(
+            'yes' => t('Yes'),
+            'no' => t('No')
+        ),
+        '#required' =>TRUE,
+        '#weight' => 3,
+    );
+    $node['actions'] = array(
+        '#type' => 'actions',
+    );
+
+    $node['actions']['render_form_new_submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Send'),
+    );
+
+    return $node; 
+}
+
+function render_form_form_submit($node, &$form_state) {
+    $values = $form_state['values']['compinfo'];
+
+    $is_computer = $values['render_form_new'] ? "computer is" : "computer isn't";
+    $message_type = $values['render_form_new'] ? 'status' : 'warning';
+
+    $message = t('@name @is_computer computer', array(
+            '@name' => $values['render_form_model'],
+            '@is_computer' => $is_computer)
+    );
+
+    $c = $values['render_form_new'];
+    variable_set('render_form_new', $c);
+    $c1 = variable_get('render_form_new', 0);
+
+    drupal_set_message($message, $message_type);
+}
