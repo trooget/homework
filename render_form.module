@@ -121,8 +121,35 @@ function render_form_form($node, &$form_state)
                 'test-class-2',
             ),
         ),
-        '#weight' => 1,
+        '#weight' => 0,
         '#required' => TRUE,
+    );
+
+    $node['compinfo']['render_form_age'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Release year'),
+        '#description' => t('Enter your computer release year into this field'),
+        '#default_value' => '',
+        '#maxlength' => 4,
+        '#size' => 4,
+        '#weight' => 1,
+        '#element_validate' => array('element_validate_integer_positive'),
+    );
+
+    $node['compinfo']['render_form_date'] = array(
+        '#title' => t('Date'),
+        '#type' => 'textfield',
+        '#description' => t('Enter a date'),
+        '#maxlength' => 255,
+        '#size' => 16,
+        '#attributes' => array(
+            'placeholder' => t('01.01.2000'),
+            'class' => array(
+                'date-class',
+            ),
+        ),
+        '#element_validate' => array('render_form_form_date_validate'),
+        '#weight' => 9,
     );
 
     $node['compinfo']['render_form_describe'] = array(
@@ -169,7 +196,29 @@ function render_form_form($node, &$form_state)
         '#value' => t('Send'),
     );
 
+    $node['actions']['render_form_computer_submit_test'] = array(
+        '#type' => 'submit',
+        '#value' => t('Send 2'),
+        '#submit' => array(
+            'render_form_form_submit_custom',
+        ),
+    );
+
+    $node['#submit'][] = 'render_form_form_submit';
+
     return $node; 
+}
+
+function render_form_form_validate($node, &$form_state)
+{
+    $values = $form_state['values']['compinfo'];
+
+    if (!preg_match('/^[a-z\s]+$/i', $values['render_form_model'])) {
+        form_set_error(
+            'render_form_model',
+            t('The field contains invalid characters')
+        );
+    }
 }
 
 function render_form_form_submit($node, &$form_state) {
@@ -189,3 +238,33 @@ function render_form_form_submit($node, &$form_state) {
 
     drupal_set_message($message, $message_type);
 }
+
+function render_form_form_submit_custom($node, &$form_state) {
+    drupal_set_message(t('Custom submit has been triggered'));
+}
+
+function render_form_form_date_validate($node, &$form_state) {
+    $values = $form_state['values']['compinfo'];
+
+    if (empty($values['render_form_date'])) {
+        form_set_error(
+            'render_form_date',
+            t('The field is empty')
+        );
+    }
+    elseif (!preg_match('/^[0-9]{2}.?[0-9]{2}.?[0-9]{4}$/',$values['render_form_date'])) {
+        form_set_error(
+            'render_form_date',
+            t('The field contains invalid characters')
+        );
+    }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+
+function render_form_form_render_form_form_alter(&$form, &$form_state, $form_id) {
+    $form['compinfo']['render_form_describe']['#access'] = FALSE;
+}
+
