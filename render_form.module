@@ -27,16 +27,6 @@ function edu_render_sys_preprocess_edu_render_sys_render_content(&$variables) {
     }
 }
 
-/**
- * Implements hook_preprocess_HOOK().
- */
-function edu_render_sys_preprocess_edu_render_sys_render_message(&$variables) {
-    $variables['classes_array'][] = 'test-message-' . 'id-' . $variables['id'];
-    $variables['classes_array'][] = 'test-message-' . $variables['zebra'];
-    $variables['classes_array'][] = 'test-message-' . 'mid-' . $variables['mid'];
-
-    unset($variables['mid']);
-}
 
 
 /**
@@ -215,7 +205,7 @@ function render_form_form_validate($node, &$form_state)
 
     if (!preg_match('/^[a-z\s]+$/i', $values['render_form_model'])) {
         form_set_error(
-            'render_form_model',
+            'compinfo][render_form_model',
             t('The field contains invalid characters')
         );
     }
@@ -224,7 +214,7 @@ function render_form_form_validate($node, &$form_state)
 function render_form_form_submit($node, &$form_state) {
     $values = $form_state['values']['compinfo'];
 
-    $is_computer = $values['render_form_new'] ? "computer is" : "computer isn't";
+    $is_computer = $values['render_form_new'] ? "computer is new" : "computer isn't new";
     $message_type = $values['render_form_new'] ? 'status' : 'warning';
 
     $message = t('@name @is_computer computer', array(
@@ -245,17 +235,10 @@ function render_form_form_submit_custom($node, &$form_state) {
 
 function render_form_form_date_validate($node, &$form_state) {
     $values = $form_state['values']['compinfo'];
-
-    if (empty($values['render_form_date'])) {
+    if (isset($values['render_form_date']) && !preg_match('/^[0-9]{2}.?[0-9]{2}.?[0-9]{4}$/',$values['render_form_date'])) {
         form_set_error(
             'render_form_date',
-            t('The field is empty')
-        );
-    }
-    elseif (!preg_match('/^[0-9]{2}.?[0-9]{2}.?[0-9]{4}$/',$values['render_form_date'])) {
-        form_set_error(
-            'render_form_date',
-            t('The field contains invalid characters')
+            t('The field is empty or the field contains invalid characters')
         );
     }
 }
