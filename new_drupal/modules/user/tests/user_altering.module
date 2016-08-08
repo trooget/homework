@@ -1,0 +1,17 @@
+<?
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function user_altering_form_user_alter(&$form, &$form_state, $form_id){
+    $form['field_i_want_to_subscribe_for_ne']['#access'] = FALSE;
+    $form['field_subscription_categories']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function user_altering_form_alter(&$form, &$form_state, $form_id)
+{
+    $form['field_i_want_to_subscribe_for_ne']['#access'] = FALSE;
+    $form['field_subscription_categories']['#access'] = FALSE;
+}

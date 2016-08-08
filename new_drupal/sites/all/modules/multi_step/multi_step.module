@@ -1,0 +1,81 @@
+<?php
+/**
+ * Implements hook_menu().
+ */
+function multi_step_menu() {
+    $items['user/%user/subscriptions'] = [
+        'title' => 'Subscriptions',
+        'page callback' => 'user_subs',
+        'access callback' => TRUE,
+        'type' => MENU_LOCAL_TASK,
+        'file' => 'user.pages.inc',
+        'file path' => drupal_get_path('module', 'user'),
+    ];
+    return $items;
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function multi_step_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+    
+    if (!empty($form_state['step']) && $form_state['step'] == 2) {
+        drupal_set_title(t('Create Account: Step 2 of 2'));
+        $form['account']['name']['#access'] = FALSE;
+        $form['account']['mail']['#access'] = FALSE;
+        $form['field_i_want_to_subscribe_for_ne']['#access'] = FALSE;
+        $form['field_subscription_categories']['#access'] = TRUE;
+
+        $form['account']['name']['#default_value'] = !empty($form_state['values']['name']) ? $form_state['values']['name'] : '';
+        $form['account']['mail']['#default_value'] = !empty($form_state['values']['mail']) ? $form_state['values']['mail'] : '';
+
+        $form['actions']['cancel'] = [
+            '#type' => 'submit',
+            '#value' => t('Cancel'),
+            '#submit' => ['multi_step_back_submit'],
+            '#limit_validation_errors' => [],
+        ];
+        $form['actions']['submit']['#weight'] = 5;
+    }
+    else {
+        drupal_set_title(t('Create Account: Step 1 of 2'));
+        $form['field_subscription_categories']['#access'] = FALSE;
+        $form['actions']['next'] = [
+            '#type' => 'submit',
+            '#value' => 'Next',
+            '#submit' => ['multi_step_next_submit'],
+        ];
+        $form['actions']['next']['#states'] = [
+            'visible' => [
+                ':input[name="field_i_want_to_subscribe_for_ne"]' => ['checked' => TRUE],
+            ],
+        ];
+
+        $form['field_i_want_to_subscribe_for_ne'] =  array(
+            '#type' => 'checkbox',
+            '#title' => t('I want to subscribe for newsletters'),
+        );
+        $form['actions']['submit']['#states'] = [
+            'visible' => [
+                ':input[name="field_i_want_to_subscribe_for_ne"]' => ['checked' => FALSE],
+            ],
+        ];
+    }
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ */
+function multi_step_next_submit($form, &$form_state) {
+    $form_state['step'] = 2;
+    $form_state['rebuild'] = TRUE;
+}
+
+function multi_step_back_submit($form, &$form_state) {
+    $form_state['redirect'] = 'user/register';
+}
