@@ -1,0 +1,4 @@
+@mixin background($col){
+  background-image: url(quote($images-path + '/#{$col}_col.gif'));
+  width: map_get(map_get($grid, $col), width);
+}

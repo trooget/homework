@@ -1,0 +1,7 @@
+@function column-width($grid-w, $grid-g, $context) {
+  @return ($grid-w / $context) - $grid-g;
+}
+
+@function columns-width($grid-w, $grid-g, $context, $cols) {
+  @return column-width($grid-w, $grid-g, $context) * $cols + $grid-g * ($cols - 1);
+}

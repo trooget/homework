@@ -1,0 +1,18 @@
+html {
+  box-sizing: border-box;
+  font-family: $font-family-main;
+  font-size: 16px;
+  line-height: 1.5em;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  -webkit-box-sizing: inherit;
+}
+
+body {
+  background-color: $color-background-main;
+  color: $color-text-main;
+  font-size: 1em;
+}

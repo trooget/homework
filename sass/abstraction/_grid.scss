@@ -1,0 +1,40 @@
+@mixin grid($col){
+  @include background($col);
+
+  @for $i from 1 through $col {
+    .grid_#{$i} {
+      @include grid_columns($col,$i);
+
+    }
+
+    .grid_#{$i}:before {
+      border: 1px solid $color-borders-main;
+      display: block;
+      text-align: center;
+      content: $i + '/' + $col;
+    }
+    .prefix_#{$i} {
+      @include col-prefix($grid, $col, $i);
+    }
+
+    .suffix_#{$i} {
+      @include col-suffix($grid, $col, $i);
+    }
+
+    .push_#{$i} {
+      left: push_pull($col,$i);
+    }
+
+    .pull_#{$i} {
+      left: -1 * push_pull($col,$i);
+    }
+
+    .alpha {
+      margin-left: 0;
+    }
+
+    .omega {
+      margin-right: 0;
+    }
+  }
+}

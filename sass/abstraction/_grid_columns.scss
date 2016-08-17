@@ -1,0 +1,5 @@
+@mixin grid_columns($col,$i){
+      width: columns-width(map_get(map_get($grid, $col), width), map_get(map_get($grid, $col), gutter), $col, $i);
+      margin: 1em map_get(map_get($grid, $col), gutter) / 2;
+      float: left;
+}

@@ -1,0 +1,43 @@
+.container_16 {
+  background-image: url(quote($images-path + '/16_col.gif'));
+  width: map_get(map_get($grid, 16), width);
+
+  p {
+    border: 1px solid $color-borders-main;
+    text-align: center;
+  }
+
+  @for $i from 1 through 16 {
+    .grid_#{$i} {
+      width: columns-width(map_get(map_get($grid, 16), width), map_get(map_get($grid, 16), gutter), 16, $i);
+      margin: 1em map_get(map_get($grid, 16), gutter) / 2;
+      float: left;
+    }
+
+    .prefix_#{$i} {
+      @include col-prefix($grid, 16, $i);
+    }
+
+    .suffix_#{$i} {
+      @include col-suffix($grid, 16, $i);
+    }
+
+    .push_#{$i} {
+      left: column-width(map_get(map_get($grid, 16), width), map_get(map_get($grid, 16), gutter), 16) * $i + map_get(map_get($grid, 16), gutter) * $i;
+    }
+
+    .pull_#{$i} {
+      left: -1 * (column-width(map_get(map_get($grid, 16), width), map_get(map_get($grid, 16), gutter), 16) * $i + map_get(map_get($grid, 16), gutter) * $i);
+    }
+
+    .alpha {
+      margin-left: 0;
+    }
+
+    .omega {
+      margin-right: 0;
+    }
+  }
+}
+
+

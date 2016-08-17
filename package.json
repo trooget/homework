@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-sass-example",
+  "description": "Nodejs SASS example.",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-sass": "latest",
+    "load-grunt-tasks": "latest",
+    "node-sass": "latest",
+    "time-grunt": "latest"
+  },
+  "engines": {
+    "node": ">=5.0.0"
+  },
+  "scripts": {
+    "postinstall": "find node_modules/ -name '*.info' -type f -delete"
+  }
+}

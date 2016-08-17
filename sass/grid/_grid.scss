@@ -1,0 +1,14 @@
+.container_12 {
+  $col:12;
+  @include grid($col);
+}
+
+.container_16 {
+ $col:16;
+ @include grid($col);
+}
+
+.container_24 {
+  $col:24;
+  @include grid($col);
+}

@@ -1,0 +1,14 @@
+@import "grid-column";
+@import "map";
+
+@function col-margin($grid, $context, $columns) {
+  @return column-width(map-get-deep($grid, $context, width), map-get-deep($grid, $context, gutter), $context) * $columns + $columns * map_get(map_get($grid, $context), gutter) + map_get(map_get($grid, $context), gutter) / 2;
+}
+
+@mixin col-prefix($grid, $context, $columns) {
+  margin-left: col-margin($grid, $context, $columns);
+}
+
+@mixin col-suffix($grid, $context, $columns) {
+  margin-right: col-margin($grid, $context, $columns);
+}
